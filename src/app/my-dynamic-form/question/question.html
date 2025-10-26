@@ -1,0 +1,31 @@
+<div [formGroup]="form()">
+  <label [attr.for]="question().key">{{ question().label }}</label>
+  <div>
+    @switch (question().controlType) { @case ('textbox') {
+    <mat-form-field class="example-full-width">
+      <mat-label>Favorite food</mat-label>
+      <input
+        matInput
+        [formControlName]="question().key"
+        [id]="question().key"
+        [type]="question().type"
+      />
+    </mat-form-field>
+    } @case ('dropdown') {
+    <mat-form-field>
+      <mat-label>Favorite food</mat-label>
+      <mat-select [id]="question().key" [formControlName]="question().key">
+        @for (opt of question().options; track opt) {
+        <mat-option [value]="opt.key">{{ opt.value }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    } @case ('checkbox') {
+    <mat-checkbox [formControlName]="question().key" [id]="question().key"></mat-checkbox>
+    <!-- <input [formControlName]="question().key" [id]="question().key" type="checkbox" /> -->
+    } }
+  </div>
+  @if (!isValid) {
+  <div class="errorMessage">{{ question().label }} is required</div>
+  }
+</div>
